@@ -8,7 +8,7 @@ import TikTokLogo from '@/public/TikTokLogo.png'
 
 const TikTokTopbar = () => {
   return (
-    <nav className="flex items-center justify-between px-4 py-2 bg-white border-b border-gray-200">
+    <div className="flex items-center justify-between px-4 py-2 bg-white border-b border-gray-200">
       <div className="flex items-center">
         <Image
             priority
@@ -39,25 +39,25 @@ const TikTokTopbar = () => {
         </button>
 
         <button>
-            <Image 
-                priority
-                src={MessagesImage}
-                alt='Messages Button'
-                width={26}
-            />
+          <Image 
+              priority
+              src={MessagesImage}
+              alt='Messages Button'
+              width={26}
+                />
         </button>
 
         <button>
-            <Image 
-                priority
-                src={InboxImage}
-                alt='Inbox Button'
-                width={33}
-            />
+          <Image 
+              priority
+              src={InboxImage}
+              alt='Inbox Button'
+              width={33}
+          />
         </button>
         <User size={26} className="text-gray-600" />
       </div>
-    </nav>
+    </div>
   );
 };
 
