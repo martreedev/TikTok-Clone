@@ -7,8 +7,10 @@ import TikTokLogo from '@/public/TikTokLogo.png'
 import { CheckUserStatus } from '@/app/firebase/Authentication';
 import LoginModal from '../Authentication Components/LoginModal';
 import LoginButton from '../Authentication Components/LoginButton';
+import { useRouter } from 'next/navigation';
 
 function LoggedInTopBarComponents(avatar: string) {
+  const router = useRouter();
   const { user } = CheckUserStatus();
   interface UserObject {
     name: String
@@ -52,7 +54,10 @@ function LoggedInTopBarComponents(avatar: string) {
           width={33}
         />
       </button>
-      <img className='rounded-full' width={28} src={UserIcon?.avatar} />
+      <button onClick={() => router.push('/account')}>
+        <img className='rounded-full' width={28} src={UserIcon?.avatar} />
+      </button>
+
     </div>
   )
 }
@@ -61,18 +66,20 @@ function LoggedInTopBarComponents(avatar: string) {
 
 const TikTokTopbar = () => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-
+  const router = useRouter();
   const { user } = CheckUserStatus();
   return (
     <div className="flex items-center justify-between px-4 py-2 bg-white border-b border-gray-200">
 
       <div className="flex items-center">
-        <Image
-          priority
-          src={TikTokLogo}
-          alt='tiktok home button'
-          width={120}
-        />
+        <button onClick={() => router.push('/')}>
+          <Image
+            priority
+            src={TikTokLogo}
+            alt='tiktok home button'
+            width={120}
+          />
+        </button>
 
       </div>
 

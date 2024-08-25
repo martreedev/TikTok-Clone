@@ -1,5 +1,6 @@
 import React from 'react';
 import { Home, Compass, Users, UserCircle, Video } from 'lucide-react';
+import { CheckUserStatus } from '@/app/firebase/Authentication';
 
 const SidebarItem = ({ icon: Icon, label, isNew, isActive }) => (
   <div className={`flex items-center p-3 hover:bg-gray-100 cursor-pointer ${isActive ? 'text-red-500' : 'text-gray-700'}`}>
@@ -20,6 +21,7 @@ const FollowingAccount = ({ name, username, imageUrl }) => (
 );
 
 const TikTokSidebar = () => {
+  const { user } = CheckUserStatus();
   const followingAccounts = [
     { name: 'jordan z', username: 'jordanzanez', imageUrl: '/api/placeholder/32/32' },
     { name: 'winnehpoohp', username: 'winnehpoohp', imageUrl: '/api/placeholder/32/32' },
@@ -31,8 +33,30 @@ const TikTokSidebar = () => {
     { name: 'Super', username: 'ml.supr', imageUrl: '/api/placeholder/32/32' },
     { name: 'andrewfefel', username: 'andrewfefel', imageUrl: '/api/placeholder/32/32' },
     { name: 'sami', username: 'sammb._', imageUrl: '/api/placeholder/32/32' },
-    
+
   ];
+
+  function FollowingAccountsComponent() {
+    return (
+      <div>
+        <h3 className="px-4 text-sm font-semibold text-gray-500 mb-2">Following accounts</h3>
+        {followingAccounts.map((account, index) => (
+          <FollowingAccount key={index} {...account} />
+        ))}
+        <div className="px-4 py-2 text-sm text-red-500 cursor-pointer hover:underline">
+          See more
+        </div>
+      </div>
+    )
+  }
+
+  function FollowingAccountsComponentNotLoggedIn() {
+    return (
+      <div>
+        <p className='pl-4 pr-6 text-gray-400'>Log in to follow creators, like videos, and view comments.</p>
+      </div>
+    )
+  }
 
   return (
     <div className="w-64 h-screen bg-white border-r border-gray-200 overflow-y-auto sidebar-container">
@@ -57,18 +81,13 @@ const TikTokSidebar = () => {
         <SidebarItem icon={Home} label="For You" isActive />
         <SidebarItem icon={Compass} label="Explore" isNew />
         <SidebarItem icon={Users} label="Following" />
-        <SidebarItem icon={Users} label="Friends" />
+
+        {user ? <SidebarItem icon={Users} label="Friends" /> : null}
         <SidebarItem icon={Video} label="LIVE" />
         <SidebarItem icon={UserCircle} label="Profile" />
       </div>
       <div className="border-t border-gray-200 pt-4">
-        <h3 className="px-4 text-sm font-semibold text-gray-500 mb-2">Following accounts</h3>
-        {followingAccounts.map((account, index) => (
-          <FollowingAccount key={index} {...account} />
-        ))}
-        <div className="px-4 py-2 text-sm text-red-500 cursor-pointer hover:underline">
-          See more
-        </div>
+        {user ? <FollowingAccountsComponent /> : <FollowingAccountsComponentNotLoggedIn />}
       </div>
     </div>
   );

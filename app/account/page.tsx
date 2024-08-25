@@ -1,6 +1,8 @@
 'use client'
 import { useRouter } from "next/navigation"
 import { CheckUserStatus } from "../firebase/Authentication";
+import { LogOut } from "../firebase/Authentication";
+import TikTokTopbar from "../components/Topbar/Topbar";
 
 interface UserObject {
     name: String
@@ -8,7 +10,7 @@ interface UserObject {
     avatar: string
 }
 
-const User = () => {
+const Account = () => {
     const router = useRouter();
     const { user } = CheckUserStatus();
     let User: UserObject | null = null
@@ -24,11 +26,16 @@ const User = () => {
 
     return (
         <div>
+            <TikTokTopbar />
             {user ?
                 <ul>
                     <li>{User?.name}</li>
                     <li>{User?.email}</li>
                     <img src={User?.avatar}></img>
+                    <button onClick={async () => {
+                        await LogOut();
+                        router.push('/')
+                    }}>Log out</button>
                 </ul>
                 :
                 null
@@ -36,4 +43,4 @@ const User = () => {
         </div>
     )
 }
-export default User
+export default Account

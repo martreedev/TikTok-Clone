@@ -11,7 +11,7 @@ const ContinueWithGoogleButton = (props: Props) => {
         const res = await signInWithGoogle();
         if (res == true) {
             props.closeModalFunction();
-            router.push('/user')
+            router.push('/')
             console.log('worked great')
         } else {
             console.log("couldnt sign you in G")
@@ -19,7 +19,7 @@ const ContinueWithGoogleButton = (props: Props) => {
     }
 
     return (
-        <button onClick={HandleGoogleLogin} className="w-full bg-blue-500 text-black py-2 rounded-md mb-4 flex pl-2 justify-start transition-opacity duration-300 hover:opacity-70">
+        <button onClick={HandleGoogleLogin} className="w-full bg-blue-500 text-black py-2 rounded-md  flex pl-2 justify-start transition-opacity duration-300 hover:opacity-70">
             <img src="google_logo.svg" alt="Google logo" className=" w-12 bg-white p-2 rounded-md" />
             <div className='mr-6 text-left'>
                 <p className='text-white ml-3 font-semibold'>Continue with Google</p>
