@@ -59,7 +59,7 @@ const TikTokSidebar = () => {
   }
 
   return (
-    <div className="w-64 h-screen bg-white border-r border-gray-200 overflow-y-auto sidebar-container">
+    <div className=" w-64 h-screen bg-white border-r border-gray-200 overflow-y-auto sidebar-container">
       <style jsx>{`
         .sidebar-container::-webkit-scrollbar {
             width: 0px;

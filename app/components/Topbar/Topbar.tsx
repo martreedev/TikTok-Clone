@@ -34,7 +34,7 @@ function LoggedInTopBarComponents(avatar: string) {
     <div className="flex items-center space-x-4">
       <button className="flex border border-gray-300 items-center px-3 py-1 text-base font-medium text-black bg-white hover:bg-gray-100 mr-5">
         <PlusIcon size={20} className="mr-1" />
-        <p className='mr-1 font-semibold'>Upload</p>
+        <button onClick={() => router.push('/upload')} className='mr-1 font-semibold'>Upload</button>
       </button>
 
       <button>
