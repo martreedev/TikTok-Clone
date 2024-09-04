@@ -50,6 +50,7 @@ const VideoUploadDetails: React.FC<VideoUploadDetailsProps> = ({ file }) => {
                 console.log("File has been uploaded")
                 setuploadCompleted(true)// complete the upload
                 // redirect to the watch page when with the video url to watch the new video
+                router.push(`/account`)
             })
         })
     };

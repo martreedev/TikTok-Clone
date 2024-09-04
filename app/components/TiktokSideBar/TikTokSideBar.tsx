@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Home, Compass, Users, UserCircle, Video } from 'lucide-react';
 import { CheckUserStatus } from '@/app/firebase/Authentication';
+import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
-const SidebarItem = ({ icon: Icon, label, isNew, isActive }) => (
+const SidebarItem = ({ icon: Icon, label, isActive }) => (
   <div className={`flex items-center p-3 hover:bg-gray-100 cursor-pointer ${isActive ? 'text-red-500' : 'text-gray-700'}`}>
     <Icon className="w-6 h-6 mr-2" />
     <span className="text-lg font-semibold font-medium">{label}</span>
-    {isNew && <span className="ml-2 text-xs bg-red-500 text-white px-1 rounded">New</span>}
+
   </div>
 );
 
@@ -21,6 +23,7 @@ const FollowingAccount = ({ name, username, imageUrl }) => (
 );
 
 const TikTokSidebar = () => {
+  const router = useRouter();
   const { user } = CheckUserStatus();
   const followingAccounts = [
     { name: 'jordan z', username: 'jordanzanez', imageUrl: '/api/placeholder/32/32' },
@@ -57,6 +60,37 @@ const TikTokSidebar = () => {
       </div>
     )
   }
+  const pathname = usePathname();
+  useEffect(() => {
+    if (pathname == "/") {
+      setFYPSelected(true);
+      setFollowingSelected(false);
+      setFriendsSelected(false);
+      setAccountSelected(false)
+    }
+    if (pathname == "/following") {
+      setFollowingSelected(true);
+      setFYPSelected(false);
+      setFriendsSelected(false);
+      setAccountSelected(false)
+    }
+    if (pathname == "/friends") {
+      setFriendsSelected(true)
+      setFYPSelected(false)
+      setFollowingSelected(false)
+      setAccountSelected(false)
+    }
+    if (pathname == "/account") {
+      setFYPSelected(false);
+      setFriendsSelected(false);
+      setFollowingSelected(false);
+      setAccountSelected(true)
+    }
+  }, [pathname])
+  const [FYPSelected, setFYPSelected] = useState(false);
+  const [FollowingSelected, setFollowingSelected] = useState(false);
+  const [FriendsSelected, setFriendsSelected] = useState(false);
+  const [AccountSelected, setAccountSelected] = useState(false);
 
   return (
     <div className=" w-64 h-screen bg-white border-r border-gray-200 overflow-y-auto sidebar-container">
@@ -78,13 +112,22 @@ const TikTokSidebar = () => {
         
       `}</style>
       <div className="py-4">
-        <SidebarItem icon={Home} label="For You" isActive />
-        <SidebarItem icon={Compass} label="Explore" isNew />
-        <SidebarItem icon={Users} label="Following" />
 
-        {user ? <SidebarItem icon={Users} label="Friends" /> : null}
-        <SidebarItem icon={Video} label="LIVE" />
-        <SidebarItem icon={UserCircle} label="Profile" />
+        <button onClick={() => router.push('/')} className='w-full'>
+          <SidebarItem icon={Home} label="For You" isActive={FYPSelected} />
+        </button>
+        <button onClick={() => router.push('/following')} className='w-full'>
+          <SidebarItem icon={Users} label="Following" isActive={FollowingSelected} />
+        </button>
+
+        {user ?
+          <button onClick={() => router.push('/friends')} className='w-full'>
+            <SidebarItem icon={Users} label="Friends" isActive={FriendsSelected} />
+          </button> : null}
+
+        <button onClick={() => router.push('/account')} className='w-full'>
+          <SidebarItem icon={UserCircle} label="Profile" isActive={AccountSelected} />
+        </button>
       </div>
       <div className="border-t border-gray-200 pt-4">
         {user ? <FollowingAccountsComponent /> : <FollowingAccountsComponentNotLoggedIn />}
